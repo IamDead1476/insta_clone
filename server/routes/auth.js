@@ -6,9 +6,13 @@ const bcrypt = require('bcrypt')
 const token = require('jsonwebtoken')
 const jwt = require ('jsonwebtoken')
 const {JWT_SECRET} = require('../keys')
+const requireLogin = require('../middleware/requireLogin') 
 
-
-
+//get route to display a message when a user is already logged(have a token) in
+router.get('/protected',requireLogin,(req,res)=>{
+    res.send("hello user...")
+})
+//post route to create a account using name email and password 
 router.post('/signup',(req,res)=>{
     const {name,email,password} = req.body
     if(!email || !password || !name){
@@ -40,7 +44,7 @@ router.post('/signup',(req,res)=>{
         console.log(err)
     })
 })
-
+//post route to let user signin using email and password
 router.post('/signin',(req,res)=>{
     const {email,password} =req.body
     if(!email || !password){
